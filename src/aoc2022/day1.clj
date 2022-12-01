@@ -17,7 +17,8 @@
        (take top)
        (apply +)))
 
-(total-calories-amongst-top-elves elves 3)
+(defn part1 [] (total-calories-amongst-top-elves elves 1))
+(defn part2 [] (total-calories-amongst-top-elves elves 2))
 
 (comment
   (def exampleinput "1000\n2000\n3000\n\n4000\n\n5000\n6000\n\n7000\n8000\n9000\n\n10000")
@@ -25,4 +26,7 @@
   (def example-elves (str/split exampleinput #"\n\n"))
 
   (total-calories-amongst-top-elves example-elves 1)
+
+  (part1)
+  (part2)
   )
