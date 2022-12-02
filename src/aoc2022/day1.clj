@@ -1,9 +1,8 @@
 (ns aoc2022.day1
-  (:require [clojure.java.io :as io]
-            [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [aoc2022.helpers :refer [get-input]]))
 
-(def elves (-> (io/resource "inputs/day1.txt")
-               slurp
+(def elves (-> (get-input "day1")
                (str/split #"\n\n")))
 
 (defn calculate-calories-for-elf [elf]
