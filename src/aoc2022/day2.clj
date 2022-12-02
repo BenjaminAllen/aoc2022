@@ -1,6 +1,5 @@
-(ns aoc2022.day2 
-  (:require [clojure.string :as str]
-            [aoc2022.helpers :refer [get-input]]))
+(ns aoc2022.day2
+  (:require [aoc2022.helpers :refer [get-input-lines]]))
 
 (def outcomes-part-one {"A X" 4 "A Y" 8 "A Z" 3
                         "B X" 1 "B Y" 5 "B Z" 9
@@ -10,11 +9,10 @@
                         "B X" 1 "B Y" 5 "B Z" 9
                         "C X" 2 "C Y" 6 "C Z" 7})
 
-(def guide (get-input "day2"))
+(def guide (get-input-lines "day2"))
 
 (defn total-points [guide outcomes]
-  (->> (str/split-lines guide)
-       (map outcomes)
+  (->> (map outcomes guide)
        (reduce +)))
 
 (defn part-one []
@@ -23,11 +21,16 @@
 (defn part-two []
   (total-points guide outcomes-part-two))
 
+
+
 (comment
-  (def example-guide "A Y\nB X\nC Z")
+  (def example-guide ["A Y" "B X" "C Z"])
+
+  example-guide
 
   (part-one)
-  (part-two)
 
+  (part-two) 
+  
   (total-points example-guide outcomes-part-two)
   )
