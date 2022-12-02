@@ -12,8 +12,7 @@
 (def guide (get-input-lines "day2"))
 
 (defn total-points [guide outcomes]
-  (->> (map outcomes guide)
-       (reduce +)))
+  (reduce #(+ %1 (outcomes %2)) 0 guide))
 
 (defn part-one []
   (total-points guide outcomes-part-one))
