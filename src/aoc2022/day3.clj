@@ -1,6 +1,6 @@
 (ns aoc2022.day3
   (:require [clojure.set :refer [intersection]]
-            [aoc2022.helpers :refer [get-input-lines]]))
+            [aoc2022.helpers :refer [get-input-lines sum]]))
 
 (def priorities
   (zipmap "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" (range 1 53)))
@@ -11,7 +11,7 @@
 
 (defn calculate [items]
   (->> (apply intersection items)
-       (reduce +)))
+       sum))
 
 (defn get-priorities-for-rucksack [rucksack]
   (let [pockets (partition (/ (count rucksack) 2) rucksack)]
@@ -24,13 +24,13 @@
 
 (defn part-one [inventory]
   (->> (map get-priorities-for-rucksack inventory)
-       (reduce +)))
+       sum))
 
 (defn part-two [inventory] 
   (->> (map set inventory)
        (partition 3)
        (map find-badge-priority)
-       (reduce +)))
+       sum))
 
 (comment
   (part-one inventory)

@@ -8,3 +8,6 @@
 (defn get-input-lines [input]
   (let [input (get-input input)]
     (str/split-lines input)))
+
+(defn sum [x]
+  (reduce + x))
