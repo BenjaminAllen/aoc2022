@@ -8,33 +8,26 @@
 
 (def inventory (get-input-lines "day3"))
 
-(defn split-rucksack-into [n s]
-  (let [s (char-array s)]
-    (partition (/ (count s) n) s)))
-
-(defn find-invalid [rucksack]
-  (let [pockets (split-rucksack-into 2 rucksack)]
-    (apply intersection (map set pockets))))
-
 (defn get-priorities-for-rucksack [rucksack]
-  (let [invalid (find-invalid rucksack)]
-    (cond
-      (nil? invalid) 0
-      :else (reduce #(+ %1 (priorities %2)) 0 invalid))))
+  (let [rucksack (map priorities rucksack)
+        pockets (partition (/ (count rucksack) 2) rucksack)]
+    (->> (map set pockets)
+         (apply intersection)
+         (reduce +))))
 
 (defn find-badge-priority [& rucksacks]
-  (let [rucksacks (map set (flatten rucksacks))]
-    (-> (apply intersection rucksacks)
-        first
-        priorities)))
+  (let [rucksacks (flatten rucksacks)]
+    (->> (map #(map priorities %) rucksacks)
+         (map set)
+         (apply intersection)
+         (reduce +))))
 
 (defn part-one [inventory]
   (->> (map get-priorities-for-rucksack inventory)
-       (apply +)))
+       (reduce +)))
 
 (defn part-two [inventory]
-  (->> (map char-array inventory)
-       (partition 3)
+  (->> (partition 3 inventory)
        (map find-badge-priority)
        (reduce +)))
 
