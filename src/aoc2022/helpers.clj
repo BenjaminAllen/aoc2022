@@ -11,3 +11,6 @@
 
 (defn sum [x]
   (reduce + x))
+
+(defn split-in-half [x]
+  (partition (/ (count x) 2) x))
