@@ -6,32 +6,35 @@
 (def priorities
   (zipmap "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" (range 1 53)))
 
-(def inventory (get-input-lines "day3"))
+(def inventory
+  (let [xf (map (fn [rucksack] (map priorities rucksack)))]
+    (into '() xf (get-input-lines "day3"))))
+
+(defn calculate [items]
+  (->> (apply intersection items)
+       (reduce +)))
 
 (defn get-priorities-for-rucksack [rucksack]
-  (let [rucksack (map priorities rucksack)
-        pockets (partition (/ (count rucksack) 2) rucksack)]
+  (let [pockets (partition (/ (count rucksack) 2) rucksack)]
     (->> (map set pockets)
-         (apply intersection)
-         (reduce +))))
+         calculate)))
 
 (defn find-badge-priority [& rucksacks]
-  (let [rucksacks (flatten rucksacks)]
-    (->> (map #(map priorities %) rucksacks)
-         (map set)
-         (apply intersection)
-         (reduce +))))
+  (-> (flatten rucksacks)
+      calculate))
 
 (defn part-one [inventory]
   (->> (map get-priorities-for-rucksack inventory)
        (reduce +)))
 
-(defn part-two [inventory]
-  (->> (partition 3 inventory)
+(defn part-two [inventory] 
+  (->> (map set inventory)
+       (partition 3)
        (map find-badge-priority)
        (reduce +)))
 
 (comment
   (part-one inventory)
 
-  (part-two inventory))
+  (part-two inventory)
+)
