@@ -1,7 +1,6 @@
 (ns aoc2022.day3
   (:require [clojure.set :refer [intersection]]
-            [aoc2022.helpers :refer [get-input-lines]]
-            [clojure.string :as str]))
+            [aoc2022.helpers :refer [get-input-lines]]))
 
 (def priorities
   (zipmap "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" (range 1 53)))
