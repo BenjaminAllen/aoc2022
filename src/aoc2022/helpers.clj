@@ -16,5 +16,4 @@
   (partition (/ (count x) 2) x))
 
 (defn count-where [pred coll]
-  (-> (filter pred coll)
-      count))
+  (reduce #(if (pred %2) (inc %) %) 0 coll))
