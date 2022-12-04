@@ -14,3 +14,7 @@
 
 (defn split-in-half [x]
   (partition (/ (count x) 2) x))
+
+(defn count-where [pred coll]
+  (-> (filter pred coll)
+      count))

@@ -18,7 +18,7 @@
          (map set)
          calculate))
 
-(defn find-badge-priority [& rucksacks]
+(defn find-badge-priority [& rucksacks]       
   (-> (flatten rucksacks)
       calculate))
 
