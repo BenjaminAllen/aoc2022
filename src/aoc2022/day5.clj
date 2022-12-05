@@ -28,9 +28,14 @@
      (Integer/parseInt from)
      (Integer/parseInt to)]))
 
-(defn move-crates [stacks instruction]
+(defn move-crates-part-one [stacks instruction]
   (let [[n from to] (parse-instruction instruction)]
     (-> (update stacks to #(apply conj % (take n (stacks from))))
+        (update from #(drop n %)))))
+
+(defn move-crates-part-two [stacks instruction]
+  (let [[n from to] (parse-instruction instruction)]
+    (-> (update stacks to #(apply conj % (reverse (take n (stacks from)))))
         (update from #(drop n %)))))
 
 (defn get-top-crates [stacks] 
@@ -39,11 +44,15 @@
 
 (defn part-one []
   (let [parsed (parse-input (get-input "day5"))]
-    (->> (reduce move-crates (:stacks parsed) (:instructions parsed))
+    (->> (reduce move-crates-part-one (:stacks parsed) (:instructions parsed))
          get-top-crates)))
 
+(defn part-two []
+  (let [parsed (parse-input (get-input "day5"))]
+    (->> (reduce move-crates-part-two (:stacks parsed) (:instructions parsed))
+         get-top-crates)))
 
 (comment
   (part-one)
-
+  (part-two)
   )
