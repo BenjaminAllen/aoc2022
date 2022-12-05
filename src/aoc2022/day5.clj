@@ -40,17 +40,18 @@
 
 (defn get-top-crates [stacks] 
   (->> (map #(first (stacks %)) (range 1 (inc (count stacks))))
-       (apply str)))
+       (apply str))) 
+
+(defn move-crates [crate-move-f]
+  (let [parsed (parse-input (get-input "day5"))]
+    (->> (reduce crate-move-f (:stacks parsed) (:instructions parsed))
+         get-top-crates)))
 
 (defn part-one []
-  (let [parsed (parse-input (get-input "day5"))]
-    (->> (reduce move-crates-part-one (:stacks parsed) (:instructions parsed))
-         get-top-crates)))
+  (move-crates move-crates-part-one))
 
 (defn part-two []
-  (let [parsed (parse-input (get-input "day5"))]
-    (->> (reduce move-crates-part-two (:stacks parsed) (:instructions parsed))
-         get-top-crates)))
+  (move-crates move-crates-part-two))
 
 (comment
   (part-one)
