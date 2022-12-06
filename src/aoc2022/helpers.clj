@@ -17,3 +17,10 @@
 
 (defn count-where [pred coll]
   (reduce #(if (pred %2) (inc %) %) 0 coll))
+
+(def test-string "mjqjpqmgbljsphdztnvjfqwrcgsmlb")
+
+(def sets (->> (partition 4 1 (cycle nil) test-string)
+               (map set)))
+
+(reduce #(if (= 4 (count %2)) (reduced (+ % 4)) (inc %)) 0 sets)
