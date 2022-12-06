@@ -18,9 +18,10 @@
          (reduce-kv #(assoc % %2 (remove nil? %3)) {}))))
 
 (defn parse-input [input] 
-  (let [[stacks instructions] (str/split input #"\n\n")]
-    {:stacks (parse-stacks stacks)
-     :instructions (str/split-lines instructions)}))
+  (let [[stacks instructions] (str/split input #"\n\n")
+        stacks (parse-stacks stacks)
+        instructions (str/split-lines instructions)] 
+    [stacks instructions]))
 
 (defn parse-instruction [instruction]
   (let [[_ n from to] (re-matches #"move (\d+) from (\d) to (\d)" instruction)]
@@ -39,8 +40,8 @@
        (apply str))) 
 
 (defn move-crates [crate-move-strategy]
-  (let [parsed (parse-input (get-input "day5"))]
-    (->> (reduce crate-move-strategy (:stacks parsed) (:instructions parsed))
+  (let [[stacks instructions] (parse-input (get-input "day5"))]
+    (->> (reduce crate-move-strategy stacks instructions)
          get-top-crates)))
 
 (defn part-one []
