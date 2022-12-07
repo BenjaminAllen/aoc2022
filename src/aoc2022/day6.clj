@@ -6,7 +6,7 @@
 (defn find-marker [input n]
   (let [sets (->> (partition n 1 input)
                   (map set))]
-    (reduce #(if (= n (count %2)) (reduced %) (inc %)) n sets))) 
+    (reduce #(if (= n (count %2)) (reduced %) (inc %)) n sets)))
 
 (defn part-one []
   (find-marker input 4))
@@ -19,5 +19,4 @@
   
   (part-two)
   )
-
 
