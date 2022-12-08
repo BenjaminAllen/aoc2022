@@ -2,6 +2,12 @@
   (:require [clojure.string :as str]
             [aoc2022.helpers :refer [get-input-lines count-where sum]]))
 
+(def example-input (str/split-lines "30373
+25512
+65332
+33549
+35390"))
+
 (defn parse-line [line]
   (map #(Integer/parseInt %) (str/split line #"")))
 
@@ -48,8 +54,50 @@
         find-visible-trees
         count-visible-trees)))
 
+(defn viewing-distance [trees tree]
+  (loop [tree tree
+         trees trees
+         distance 0]
+    (cond 
+      (empty? trees)
+      distance
+      
+      (>= (first trees) tree)
+      (inc distance)
+      
+      :else
+      (recur tree (rest trees) (inc distance)))))
 
 
-(part-one)
-  
+(defn find-viewing-distance [acc tree]
+  (let [distance (viewing-distance (acc :trees) tree)]
+    (-> acc
+        (update :line #(conj % distance))
+        (update :trees #(concat [tree] %)))))
+
+(defn find-viewing-distances-for-line [line]
+  (let [f #(reduce find-viewing-distance {:line [] :trees []} %)
+        forwards (:line (f line))
+        backwards (:line (f (reverse line)))
+        combined (map vector forwards (reverse backwards))]
+    (map #(apply * %) combined)))
+
+(defn combine-distances [line]
+  (let [ [horizontal vertical] line]
+       (->> (map vector horizontal vertical)
+            (map #(apply * %)))))
+
+(defn find-viewing-distances [forest]
+  (let [horizontal (map find-viewing-distances-for-line forest)
+        vertical (map find-viewing-distances-for-line (rotate forest))
+        combined (map vector horizontal (rotate vertical))]
+    (->> (map combine-distances combined)
+         (map #(apply max %))
+         (apply max))))
+
+
+(defn part-two []
+  (find-viewing-distances (map parse-line (get-input-lines "day8"))))
+
+(part-two)
 
