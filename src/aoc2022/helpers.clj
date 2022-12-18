@@ -18,9 +18,15 @@
 (defn count-where [pred coll]
   (reduce #(if (pred %2) (inc %) %) 0 coll))
 
-(def test-string "mjqjpqmgbljsphdztnvjfqwrcgsmlb")
+(defn extract-numbers
+  ([s]
+   (let [numbers (re-seq #"\d+" s)]
+     (mapv #(Integer/parseInt %) numbers)))
+  ([s & n]
+   (let [numbers (extract-numbers s)]
+     (mapv #(let [n (if (neg-int? %) (+ (count numbers) %) %)] (nth numbers n nil)) n))))
 
-(def sets (->> (partition 4 1 (cycle nil) test-string)
-               (map set)))
+(defn extract-number [s]
+  (let [numbers (extract-numbers s)]
+    (first numbers)))
 
-(reduce #(if (= 4 (count %2)) (reduced (+ % 4)) (inc %)) 0 sets)
